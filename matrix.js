@@ -43,6 +43,30 @@ class Matrix {
   }
 
   /**
+   * Convert an array to a matrix
+   * @param {Array} array the array to convert
+   */
+  static fromArray(array) {
+    let m = new Matrix(array.length, 1)
+    for (let i = 0; i < array.length; i++) {
+      m.data[i][0] = array[i]
+    }
+    return m
+  }
+
+  toArray() {
+    let array = []
+
+    for (let row = 0; row < this.rows; row++) {
+      for (let col = 0; col < this.cols; col++) {
+        array.push(this.data[row][col])
+      }
+    }
+
+    return array
+  }
+
+  /**
    * Multiply two matrices together
    * @param {Matrix} a first matrix
    * @param {Matrix} b second matrix
@@ -94,7 +118,7 @@ class Matrix {
    * Fills the matrix with random values from 0 to 9
    */
   randomize() {
-    this.map(_ => Math.floor(Math.random() * 10))
+    this.map(_ => Math.random() * 2 - 1)
   }
 
   /**

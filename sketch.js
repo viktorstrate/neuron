@@ -1,7 +1,12 @@
-let brain
+let nn
 
 function setup() {
-  brain = new NeuralNetwork(3, 3, 1)
+  nn = new NeuralNetwork(2, 3, 1)
+
+  let input = [1, 0]
+
+  let output = nn.feedforward(input)
+  console.log(output)
 }
 
 function draw() {}

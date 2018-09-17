@@ -18,6 +18,26 @@ describe('matrix functions', () => {
     m.data = [[1, 2, 3], [4, 5, 6]]
   })
 
+  test('.fromArray()', () => {
+    let array = [1, 2, 3, 4]
+    let n = Matrix.fromArray(array)
+
+    expect(n.rows).toBe(array.length)
+    expect(n.cols).toBe(1)
+
+    expect(n.data).toEqual([[1], [2], [3], [4]])
+  })
+
+  test('toArray()', () => {
+    let n = new Matrix(4, 1)
+    n.data = [[1], [2], [3], [4]]
+
+    let array = n.toArray()
+
+    expect(array.length).toBe(4)
+    expect(array).toEqual([1, 2, 3, 4])
+  })
+
   test('.map()', () => {
     m.map(val => val * 2)
     expect(m.data).toEqual([[2, 4, 6], [8, 10, 12]])
