@@ -43,34 +43,39 @@ class Matrix {
   }
 
   /**
-   *
-   * @param {number|Matrix} n a number or a Matrix
+   * Multiply two matrices together
+   * @param {Matrix} a first matrix
+   * @param {Matrix} b second matrix
+   */
+  static multiply(a, b) {
+    if (a.cols !== b.rows) {
+      console.error('Cols of A must match rows of B')
+      return undefined
+    }
+
+    let result = new Matrix(a.rows, b.cols)
+
+    for (let row = 0; row < a.rows; row++) {
+      for (let col = 0; col < b.cols; col++) {
+        let sum = 0
+
+        for (let i = 0; i < a.cols; i++) {
+          sum += a.data[row][i] * b.data[i][col]
+        }
+
+        result.data[row][col] = sum
+      }
+    }
+
+    return result
+  }
+
+  /**
+   * Multiplies the matrix with a number
+   * @param {number} n the number to multiply with
    */
   multiply(n) {
-    if (n instanceof Matrix) {
-      if (this.cols !== n.rows) {
-        console.error('Cols of A must match rows of B')
-        return undefined
-      }
-
-      let result = new Matrix(this.rows, n.cols)
-
-      for (let row = 0; row < this.rows; row++) {
-        for (let col = 0; col < n.cols; col++) {
-          let sum = 0
-
-          for (let i = 0; i < this.cols; i++) {
-            sum += this.data[row][i] * n.data[i][col]
-          }
-
-          result.data[row][col] = sum
-        }
-      }
-
-      return result
-    } else {
-      this.map(val => val * n)
-    }
+    this.map(val => val * n)
   }
 
   /**
@@ -100,4 +105,9 @@ class Matrix {
     console.table(this.data)
     console.groupEnd()
   }
+}
+
+// Export if used in node environment
+if (typeof module !== 'undefined') {
+  module.exports = Matrix
 }
