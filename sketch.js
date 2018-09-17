@@ -1,7 +1,7 @@
-let brain
+let brain;
 
 function setup() {
-  brain = new NeuralNetwork(3, 3, 1)
+  brain = new NeuralNetwork(3, 3, 1);
 }
 
 function draw() {}
