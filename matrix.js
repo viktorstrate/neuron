@@ -4,12 +4,12 @@ class Matrix {
   constructor(rows, cols) {
     this.rows = rows
     this.cols = cols
-    this.matrix = []
+    this.data = []
 
     for (let i = 0; i < this.rows; i++) {
-      this.matrix[i] = []
+      this.data[i] = []
       for (let j = 0; j < this.cols; j++) {
-        this.matrix[i][j] = 0
+        this.data[i][j] = 0
       }
     }
   }
@@ -21,11 +21,31 @@ class Matrix {
   map(fn) {
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.cols; j++) {
-        this.matrix[i][j] = fn(this.matrix[i][j], i, j)
+        this.data[i][j] = fn(this.data[i][j], i, j)
       }
     }
   }
 
+  /**
+   * Swap columns and rows
+   * @returns a new matrix
+   */
+  transpose() {
+    let result = new Matrix(this.cols, this.rows)
+
+    for (let i = 0; i < this.rows; i++) {
+      for (let j = 0; j < this.cols; j++) {
+        result.data[j][i] = this.data[i][j]
+      }
+    }
+
+    return result
+  }
+
+  /**
+   *
+   * @param {number|Matrix} n a number or a Matrix
+   */
   multiply(n) {
     if (n instanceof Matrix) {
       if (this.cols !== n.rows) {
@@ -40,10 +60,10 @@ class Matrix {
           let sum = 0
 
           for (let i = 0; i < this.cols; i++) {
-            sum += this.matrix[row][i] * n.matrix[i][col]
+            sum += this.data[row][i] * n.data[i][col]
           }
 
-          result.matrix[row][col] = sum
+          result.data[row][col] = sum
         }
       }
 
@@ -53,21 +73,31 @@ class Matrix {
     }
   }
 
+  /**
+   * add a number or another matrix to the matrix
+   * @param {number|Matrix} n a number or a matrix
+   */
   add(n) {
     if (n instanceof Matrix) {
-      this.map((val, i, j) => val + n.matrix[i][j])
+      this.map((val, i, j) => val + n.data[i][j])
     } else {
       this.map(val => val + n)
     }
   }
 
+  /**
+   * Fills the matrix with random values from 0 to 9
+   */
   randomize() {
     this.map(_ => Math.floor(Math.random() * 10))
   }
 
+  /**
+   * Prints the content of the matrix to the console
+   */
   print() {
     console.group('Matrix ' + this.rows + 'x' + this.cols)
-    console.table(this.matrix)
+    console.table(this.data)
     console.groupEnd()
   }
 }
