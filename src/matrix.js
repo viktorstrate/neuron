@@ -121,6 +121,30 @@ class Matrix {
   }
 
   /**
+   * Multiply each element in the matrices with each other.
+   * Also known as Hadamard product
+   * Returns a new matrix
+   * @param {Matrix} a first matrix
+   * @param {Matrix} b second matrix
+   */
+  static element_wise_multiply(a, b) {
+    if (a.cols !== b.cols || a.rows !== b.rows) {
+      console.error('Matrices must have same dimensions')
+      return
+    }
+
+    let result = new Matrix(a.rows, a.cols)
+
+    for (let row = 0; row < a.rows; row++) {
+      for (let col = 0; col < a.cols; col++) {
+        result.data[row][col] = a.data[row][col] * b.data[row][col]
+      }
+    }
+
+    return result
+  }
+
+  /**
    * Add a number or another matrix to a matrix, a new matrix is returned
    * @param {Matrix} a the matrix the addition is based upon
    * @param {Matrix|number} b either another matrix or a number to be added to the first matrix
