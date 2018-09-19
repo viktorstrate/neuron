@@ -57,6 +57,15 @@ describe('matrix functions', () => {
     expect(m.data).toEqual([[2, 4, 6], [8, 10, 12]])
   })
 
+  test('.element_wise(n)', () => {
+    n = new Matrix(2, 3)
+    n.data = [[2, 3, 4], [5, 6, 7]]
+
+    n.element_wise_multiply(m)
+
+    expect(n.data).toEqual([[2, 6, 12], [20, 30, 42]])
+  })
+
   test('.add(number)', () => {
     m.add(2)
     expect([[3, 4, 5], [6, 7, 8]])
