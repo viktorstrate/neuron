@@ -44,4 +44,25 @@ class NeuralNetwork {
     // Sending back the results
     return output.toArray()
   }
+
+  train(inputs, targets) {
+    let outputs = this.feedforward(inputs)
+
+    // Convert arrays to matrices
+    outputs = Matrix.fromArray(outputs)
+    targets = Matrix.fromArray(targets)
+
+    // Calculate the error
+    // ERROR = TARGETS - OUTPUTS
+    let output_errors = Matrix.subtract(targets, outputs)
+
+    let weights_ho_trans = Matrix.transpose(this.weights_ho)
+
+    // NOTE: To add more layers, make a loop and repeat this
+    let hidden_errors = Matrix.multiply(weights_ho_trans, output_errors)
+
+    // outputs.print()
+    // targets.print()
+    // error.print()
+  }
 }
