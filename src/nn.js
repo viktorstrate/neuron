@@ -97,12 +97,29 @@ class NeuralNetwork {
     // Calculate the output error
     // ERROR = TARGETS - OUTPUTS
 
-    let previous_nodes = targets
+    let previous_error
 
-    for (let i = layers.length - 1; i > 0; i--) {
+    for (let i = layers.length - 1; i >= 0; i--) {
       let current_nodes = layers[i]
+      let next_nodes
 
-      let output_errors = Matrix.subtract(previous_nodes, current_nodes)
+      if (i > 0) {
+        next_nodes = layers[i - 1]
+      } else {
+        next_nodes = inputs
+      }
+
+      let output_errors
+      if (i == layers.length - 1) {
+        // last output ERROR = TARGETS - OUTPUTS
+        output_errors = Matrix.subtract(targets, current_nodes)
+      } else {
+        let previous_weights_t = Matrix.transpose(this.weights[i + 1])
+
+        output_errors = Matrix.multiply(previous_weights_t, previous_error)
+      }
+
+      previous_error = output_errors
 
       // Calculate output gradients
       let output_gradients = Matrix.map(
@@ -113,61 +130,11 @@ class NeuralNetwork {
       output_gradients.multiply(this.learning_rate)
 
       // Calculate deltas
-      let current_nodes_t = Matrix.transpose(current_nodes)
-      let weight_deltas = Matrix.multiply(output_gradients, current_nodes_t)
+      let next_nodes_t = Matrix.transpose(next_nodes)
+      let weight_deltas = Matrix.multiply(output_gradients, next_nodes_t)
 
       this.weights[i].add(weight_deltas)
       this.biases[i].add(output_gradients)
     }
-
-    // ------------------------------------
-
-    // // Feed forward
-    // // Generating the hidden outputs
-    // let hidden = Matrix.multiply(this.weights_ih, inputs)
-    // hidden.add(this.bias_h)
-    // let hidden_raw = hidden.copy()
-    // hidden.map(this.activation_funcs.normal)
-
-    // // Generating the output's outputs
-    // let outputs = Matrix.multiply(this.weights_ho, hidden)
-    // outputs.add(this.bias_o)
-    // let outputs_raw = outputs.copy()
-    // outputs.map(this.activation_funcs.normal)
-
-    // // Calculate the output error
-    // // ERROR = TARGETS - OUTPUTS
-    // let output_errors = Matrix.subtract(targets, outputs)
-
-    // // Calculate output gradients
-    // let output_gradients = Matrix.map(
-    //   outputs_raw,
-    //   this.activation_funcs.derived
-    // )
-    // output_gradients.element_wise_multiply(output_errors)
-    // output_gradients.multiply(this.learning_rate)
-
-    // // Calculate hidden -> output deltas
-    // let hidden_t = Matrix.transpose(hidden)
-    // let weight_ho_deltas = Matrix.multiply(output_gradients, hidden_t)
-
-    // this.weights_ho.add(weight_ho_deltas)
-    // this.bias_o.add(output_gradients)
-
-    // // Calculate the hidden layer errors
-    // let weights_ho_trans = Matrix.transpose(this.weights_ho)
-    // let hidden_errors = Matrix.multiply(weights_ho_trans, output_errors)
-
-    // // Calculate hidden gradients
-    // let hidden_gradients = Matrix.map(hidden_raw, this.activation_funcs.derived)
-    // hidden_gradients.element_wise_multiply(hidden_errors)
-    // hidden_gradients.multiply(this.learning_rate)
-
-    // // Calculate input -> hidden deltas
-    // let inputs_t = Matrix.transpose(inputs)
-    // let weight_ih_deltas = Matrix.multiply(hidden_gradients, inputs_t)
-
-    // this.weights_ih.add(weight_ih_deltas)
-    // this.bias_h.add(hidden_gradients)
   }
 }

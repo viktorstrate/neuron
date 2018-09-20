@@ -24,7 +24,7 @@ function setup() {
   createCanvas(400, 400)
   background(200)
 
-  nn = new NeuralNetwork(2, 4, 1)
+  nn = new NeuralNetwork(2, [3, 3], 1)
 
   createSpan('Learning Rate:')
   lr_slider = createSlider(0, 0.5, 0.1, 0.01)
