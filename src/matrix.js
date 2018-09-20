@@ -188,6 +188,11 @@ class Matrix {
    */
   add(n) {
     if (n instanceof Matrix) {
+      if (this.cols !== n.cols || this.rows !== n.rows) {
+        console.error('Rows and columns must be equal')
+        return
+      }
+
       this.map((val, i, j) => val + n.data[i][j])
     } else {
       this.map(val => val + n)
@@ -220,6 +225,11 @@ class Matrix {
    */
   subtract(n) {
     if (n instanceof Matrix) {
+      if (this.cols !== n.cols || this.rows !== n.rows) {
+        console.error('Rows and columns must be equal')
+        return
+      }
+
       this.map((val, i, j) => val - n.data[i][j])
     } else {
       this.map(val => val - n)
