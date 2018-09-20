@@ -95,6 +95,7 @@ class NeuralNetwork {
     let weight_ho_deltas = Matrix.multiply(output_gradients, hidden_t)
 
     this.weights_ho.add(weight_ho_deltas)
+    this.bias_o.add(output_gradients)
 
     // Calculate the hidden layer errors
     let weights_ho_trans = Matrix.transpose(this.weights_ho)
@@ -110,9 +111,6 @@ class NeuralNetwork {
     let weight_ih_deltas = Matrix.multiply(hidden_gradients, inputs_t)
 
     this.weights_ih.add(weight_ih_deltas)
-
-    outputs.print()
-    targets.print()
-    output_errors.print()
+    this.bias_h.add(hidden_gradients)
   }
 }
