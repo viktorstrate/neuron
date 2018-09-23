@@ -44,7 +44,7 @@ function refreshUI() {
   createElement('br')
   createElement('br')
 
-  createButton('Update neural network input/output nodes').mousePressed(() => {
+  createButton('Update neural network nodes').mousePressed(() => {
     if (!confirm('This will delete the current neural network')) {
       return
     }
@@ -69,11 +69,14 @@ function refreshUI() {
   let guessLabel = createSpan('Guess').style('margin', '0 12px')
 
   predictBtn.mousePressed(() => {
-    let guess = nn.predict(inputs.map(x => x.value()))
+    let guesses = nn.predict(inputs.map(x => x.value()))
 
-    guess = floor(guess * 1000) / 10
+    displayGuesses = guesses
+      .map(x => floor(x * 1000) / 1000)
+      .reduce((prev, curr) => prev + ', ' + curr, '')
+      .substr(2)
 
-    guessLabel.html('Guess: ' + guess + '%')
+    guessLabel.html('Guess: ' + displayGuesses)
   })
 
   createElement('br')
@@ -105,8 +108,15 @@ function refreshUI() {
   createSpan('|').style('margin-right', '12px')
 
   createButton('Add data').mousePressed(() => {
-    let inputs = dataInputs.map(x => x.value())
-    let outputs = dataOutputs.map(x => x.value())
+    let inputs = dataInputs.map(x => Number(x.value()))
+    let outputs = dataOutputs.map(x => Number(x.value()))
+
+    for (let output of outputs) {
+      if (output > 1) {
+        alert('Output must be between 0 and 1')
+        return
+      }
+    }
 
     for (let input of dataInputs) {
       input.value('')
@@ -129,6 +139,24 @@ function refreshUI() {
   for (let i = 0; i < trainingData.length; i++) {
     addTrainingDataRow(trainingData[i])
   }
+
+  createElement('br')
+  createElement('br')
+
+  let exportBtn = createButton('Export state')
+  let importBtn = createButton('Import state')
+
+  createElement('br')
+
+  let outputArea = createElement('textarea')
+
+  exportBtn.mousePressed(() => {
+    outputArea.value(serializeState())
+  })
+
+  importBtn.mousePressed(() => {
+    parseState(outputArea.value())
+  })
 }
 
 function addTrainingDataRow(data) {
@@ -157,7 +185,15 @@ function addTrainingDataRow(data) {
   let remove = createButton('Remove')
   remove.parent(row)
   remove.mousePressed(() => {
-    trainingData.splice(i, 1)
+    let index
+    let children = trainingDataContainer.child()
+    for (let i = 0; i < children.length; i++) {
+      if (children[i] == row.elt) {
+        index = i
+      }
+    }
+
+    trainingData.splice(index, 1)
     row.remove()
   })
 }
@@ -166,7 +202,7 @@ function applyNetwork() {
   let inputs = Number(inputNodesField.value())
   let outputs = Number(outputNodesField.value())
 
-  if (inputs === nn.inputNodes.length && outputs === nn.outputNodes.length) {
+  if (inputs !== nn.inputNodes || outputs !== nn.outputNodes) {
     trainingData = []
   }
 

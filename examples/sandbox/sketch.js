@@ -12,7 +12,7 @@ let lastNewHighestError = 0
 const NETWORK_PADDING = 30
 
 function setup() {
-  nn = new NeuralNetwork(2, 3, 1)
+  nn = new NeuralNetwork(2, [3, 3], 1)
 
   updateNetworkStructure()
   refreshUI()
@@ -45,7 +45,11 @@ function draw() {
 
     let data = random(trainingData)
     let prediction = nn.predict(data[0])
-    let error = data[1] - prediction
+    let error = 0
+
+    for (let i = 0; i < prediction.length; i++) {
+      error += data[1][i] - prediction[i]
+    }
 
     errors.push(error)
     if (errors.length > 100) {
