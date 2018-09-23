@@ -4,19 +4,19 @@ let lr_slider
 let training_data = [
   {
     inputs: [0, 0],
-    targets: [1],
+    targets: [0],
   },
   {
     inputs: [1, 1],
-    targets: [1],
+    targets: [0],
   },
   {
     inputs: [0, 1],
-    targets: [0],
+    targets: [1],
   },
   {
     inputs: [1, 0],
-    targets: [0],
+    targets: [1],
   },
 ]
 
@@ -24,7 +24,7 @@ function setup() {
   createCanvas(400, 400)
   background(200)
 
-  nn = new NeuralNetwork(2, [3, 3], 1)
+  nn = new NeuralNetwork(2, 4, 1)
 
   createSpan('Learning Rate:')
   lr_slider = createSlider(0, 0.5, 0.1, 0.01)
@@ -47,7 +47,7 @@ function draw() {
       let x1 = i / cols
       let x2 = j / rows
 
-      let y = nn.feedforward([x1, x2])
+      let y = nn.predict([x1, x2])
       fill(y * 255)
       strokeWeight(0)
 

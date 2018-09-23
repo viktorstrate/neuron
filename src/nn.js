@@ -53,7 +53,7 @@ class NeuralNetwork {
    * Calculate the output for the following inputs, using the feed forward algorithm
    * @param {Array} inputs the inputs for the neural network
    */
-  feedforward(inputs) {
+  predict(inputs) {
     let input_matrix = Matrix.fromArray(inputs)
 
     let node_layer = input_matrix
@@ -97,7 +97,7 @@ class NeuralNetwork {
     // Calculate the output error
     // ERROR = TARGETS - OUTPUTS
 
-    let previous_error
+    let previous_errors
 
     for (let i = layers.length - 1; i >= 0; i--) {
       let current_nodes = layers[i]
@@ -116,10 +116,11 @@ class NeuralNetwork {
       } else {
         let previous_weights_t = Matrix.transpose(this.weights[i + 1])
 
-        output_errors = Matrix.multiply(previous_weights_t, previous_error)
+        // Each weight share its portion of the error
+        output_errors = Matrix.multiply(previous_weights_t, previous_errors)
       }
 
-      previous_error = output_errors
+      previous_errors = output_errors
 
       // Calculate output gradients
       let output_gradients = Matrix.map(
