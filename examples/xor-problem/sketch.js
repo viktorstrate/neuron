@@ -1,5 +1,4 @@
 let nn
-let lr_slider
 
 let training_data = [
   {
@@ -27,12 +26,15 @@ function setup() {
   nn = new NeuralNetwork(2, 4, 1)
 
   createSpan('Learning Rate:')
-  lr_slider = createSlider(0, 0.5, 0.1, 0.01)
+  let lr_slider = createSlider(0, 0.5, 0.1, 0.01)
+  let lr_label = createSpan(lr_slider.value())
+  lr_slider.changed(() => {
+    nn.learning_rate = lr_slider.value()
+    lr_label.html(lr_slider.value())
+  })
 }
 
 function draw() {
-  nn.learning_rate = lr_slider.value()
-
   for (let i = 0; i < 50; i++) {
     let data = random(training_data)
     nn.train(data.inputs, data.targets)

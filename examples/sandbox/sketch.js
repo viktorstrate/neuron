@@ -7,7 +7,6 @@ let trainingData = [[[0, 0], [0]], [[1, 1], [0]], [[1, 0], [1]], [[0, 1], [1]]]
 let errors = []
 let averageErrors = []
 let highestError = 0
-let lastNewHighestError = 0
 
 const NETWORK_PADDING = 30
 
