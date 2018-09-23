@@ -1,0 +1,27 @@
+canvas {
+  display: block;
+  margin: 0 auto 16px;
+  border: 1px solid #cddee1;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin-bottom: 6px;
+}
+
+body {
+  text-align: center;
+  width: 100%;
+  margin: 0;
+  padding-bottom: 100px;
+}
+
+input {
+  margin: 0 16px 0 6px;
+}
+
+input[type='text'] {
+  width: 50px;
+}
