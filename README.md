@@ -17,3 +17,9 @@ Construct a neural network, and add custom training data [link](https://viktorst
 Use a neural network to approximate a function [link](https://viktorstrate.github.io/neuron/examples/function-approximator/index.html)
 
 ![screenshot](./screenshots/function-approximator.png)
+
+### Point classification
+
+Classify color labels on a 2D coordinate space [link](https://viktorstrate.github.io/neuron/examples/point-classification/index.html)
+
+![screenshot](./screenshots/point-classification.png)
