@@ -2,6 +2,8 @@
 
 > An educational neural network library with a bunch of examples
 
+_This library is based on [Coding Train's video series on neural networks](https://www.youtube.com/playlist?list=PLRqwX-V7Uu6Y7MdSCaIfsxc561QI0U0Tb), and the [Toy Neural Network](https://github.com/CodingTrain/Toy-Neural-Network-JS)_
+
 ## Examples
 
 See a list of all the examples [here](https://viktorstrate.github.io/neuron/examples/)
