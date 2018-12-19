@@ -1,6 +1,7 @@
 let nn
 
 let training = false
+let trainStep = 0
 
 let trainingData = [[[0, 0], [0]], [[1, 1], [0]], [[1, 0], [1]], [[0, 1], [1]]]
 
@@ -24,13 +25,16 @@ function draw() {
 
   fill(0)
   noStroke()
-  text(training ? 'Training' : 'Not training', 10, height - 10)
+  text(training ? 'Training' : 'Not training', 10, height - 24)
+  text(`Train step: ${trainStep}`, 10, height - 10)
   let displayError =
     errors.reduce((prev, curr) => prev + curr, 0) / errors.length
   displayError = floor(displayError * 1000000) / 1000000
   text('Error: ' + displayError, width - 100, height - 10)
 
   if (training) {
+    trainStep++
+
     if (trainingData.length === 0) {
       training = false
       alert('No training data provided, please add some and try again')

@@ -199,6 +199,11 @@ function addTrainingDataRow(data) {
 }
 
 function applyNetwork() {
+  trainStep = 0
+  errors = []
+  averageErrors = []
+  highestError = 0
+
   let inputs = Number(inputNodesField.value())
   let outputs = Number(outputNodesField.value())
 
